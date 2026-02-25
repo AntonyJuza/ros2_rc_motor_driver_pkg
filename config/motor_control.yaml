@@ -1,0 +1,25 @@
+cytron_controller_node:
+  ros__parameters:
+    # GPIO pins for Cytron motor controller
+    rc1_pin: 12   # Adjust based on your wiring
+    rc2_pin: 13   # Adjust based on your wiring
+
+    
+    # Robot dimensions
+    wheel_base: 0.40  # meters - distance between left and right wheels
+    wheel_radius: 0.05  # meters - radius of wheels
+    
+    # Motor configuration
+    max_speed: 100  # Maximum PWM value
+    
+    # Control parameters
+    publish_rate: 50.0  # Hz
+    
+    # Encoder parameters
+    encoder_pins: [18, 19]  # GPIO pins for 4 encoders (adjust for your setup)
+    pulses_per_revolution: 20  # Adjust based on your encoder specs
+    
+    # Odometry
+    publish_tf: true
+    base_frame: "base_link"
+    odom_frame: "odom"
