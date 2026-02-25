@@ -2,7 +2,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <std_msgs/msg/bool.hpp>
-#include <algorithm>  // For std::clamp
+#include <algorithm>  // For std::max, std::abs
 
 using humanoid_motor_control::CytronController;
 
@@ -20,13 +20,14 @@ public:
         if (!controller_.init(rc1, rc2)) {
             RCLCPP_ERROR(this->get_logger(), "Failed to initialize CytronController");
             RCLCPP_ERROR(this->get_logger(), "Make sure pigpiod is running: sudo pigpiod");
+            emergency_stop_ = true;  // ensure motors stay stopped
             rclcpp::shutdown();
         } else {
             RCLCPP_INFO(this->get_logger(), "CytronController initialized on RC1=GPIO%d RC2=GPIO%d", rc1, rc2);
             RCLCPP_INFO(this->get_logger(), "Using hardware PWM channels - excellent!");
         }
         
-        // Publisher for wheel velocities (for debugging/monitoring)
+        // Publisher for wheel velocities (for monitoring)
         wheel_vel_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/wheel_velocities", 10);
         
         // Subscriber for /cmd_vel
@@ -70,33 +71,34 @@ private:
         double angular = msg->angular.z;
         
         // Differential drive kinematics: convert to left/right wheel velocities
-        // left_vel = linear - (angular * wheel_base / 2)
-        // right_vel = linear + (angular * wheel_base / 2)
-        double left_vel = linear - (angular * wheel_base_ / 2.0);
+        double left_vel  = linear - (angular * wheel_base_ / 2.0);
         double right_vel = linear + (angular * wheel_base_ / 2.0);
         
         // Map to motor speed percentage (-100 to 100)
-        int left_speed = static_cast<int>(100.0 * left_vel / max_linear_speed_);
+        int left_speed  = static_cast<int>(100.0 * left_vel / max_linear_speed_);
         int right_speed = static_cast<int>(100.0 * right_vel / max_linear_speed_);
         
-        // Clamp speeds to valid range [-100, 100]
-        left_speed = std::clamp(left_speed, -100, 100);
-        right_speed = std::clamp(right_speed, -100, 100);
+        // Scale speeds proportionally if either exceeds 100%
+        int max_mag = std::max(std::abs(left_speed), std::abs(right_speed));
+        if (max_mag > 100) {
+            left_speed  = (left_speed  * 100) / max_mag;
+            right_speed = (right_speed * 100) / max_mag;
+        }
         
         // Send speeds to CytronController
         controller_.setLeftRight(left_speed, right_speed);
         
-        // Log for debugging (only when non-zero to avoid spam)
+        // Log for debugging
         if (left_speed != 0 || right_speed != 0) {
             RCLCPP_DEBUG(this->get_logger(), 
                         "cmd_vel: lin=%.2f ang=%.2f → L=%d%% R=%d%%",
                         linear, angular, left_speed, right_speed);
         }
         
-        // Publish wheel velocities for monitoring
+        // Publish wheel velocities in m/s
         auto wheel_msg = geometry_msgs::msg::Twist();
-        wheel_msg.linear.x = static_cast<double>(left_speed);
-        wheel_msg.linear.y = static_cast<double>(right_speed);
+        wheel_msg.linear.x  = left_vel;
+        wheel_msg.linear.y  = right_vel;
         wheel_vel_pub_->publish(wheel_msg);
     }
     
