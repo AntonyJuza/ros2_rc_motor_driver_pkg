@@ -6,7 +6,7 @@ cytron_controller_node:
 
     
     # Robot dimensions
-    wheel_base: 0.40  # meters - distance between left and right wheels
+    wheel_base: 0.25  # meters - distance between left and right wheels
     wheel_radius: 0.05  # meters - radius of wheels
     
     # Motor configuration
@@ -20,6 +20,15 @@ cytron_controller_node:
     pulses_per_revolution: 20  # Adjust based on your encoder specs
     
     # Odometry
+    # diff_drive_controller publishes odom -> base_link TF directly (no EKF installed)
+    publish_tf: true
+    base_frame: "base_link"
+    odom_frame: "odom"
+
+diff_drive_controller:
+  ros__parameters:
+    wheel_base: 0.25
+    wheel_radius: 0.05
     publish_tf: true
     base_frame: "base_link"
     odom_frame: "odom"

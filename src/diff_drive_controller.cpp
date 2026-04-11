@@ -15,8 +15,8 @@ public:
     x_(0.0), y_(0.0), theta_(0.0)
   {
     // Declare parameters
-    this->declare_parameter("wheel_base", 0.4);
-    this->declare_parameter("wheel_radius", 0.05);
+    this->declare_parameter("wheel_base", 0.23);
+    this->declare_parameter("wheel_radius", 0.045);
     this->declare_parameter("publish_tf", true);
     this->declare_parameter("base_frame", "base_link");
     this->declare_parameter("odom_frame", "odom");
@@ -30,7 +30,7 @@ public:
 
     // Create subscribers
     joint_state_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
-      "joint_states", 10,
+      "magnetic_joint_states", 10,
       std::bind(&DiffDriveController::jointStateCallback, this, std::placeholders::_1));
 
     // Create publishers
@@ -49,7 +49,7 @@ public:
 private:
   void jointStateCallback(const sensor_msgs::msg::JointState::SharedPtr msg)
   {
-    if (msg->velocity.size() < 4) {
+    if (msg->velocity.size() < 2) {
       return;
     }
 
@@ -60,10 +60,9 @@ private:
       return;
     }
 
-    // Average left and right wheel velocities
-    // Assuming wheel order: front_left, front_right, rear_left, rear_right
-    double left_vel = (msg->velocity[0] + msg->velocity[2]) / 2.0;  // Average of left wheels
-    double right_vel = (msg->velocity[1] + msg->velocity[3]) / 2.0;  // Average of right wheels
+    // left and right wheel velocities from magnetic_joint_states
+    double left_vel = msg->velocity[0];  // rear_left_wheel
+    double right_vel = msg->velocity[1]; // rear_right_wheel
 
     // Calculate robot velocities using differential drive kinematics
     double linear_vel = (left_vel + right_vel) / 2.0;

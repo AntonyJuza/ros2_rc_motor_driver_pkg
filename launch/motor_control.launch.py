@@ -29,13 +29,17 @@ def generate_launch_description():
         parameters=[config_file, {'use_sim_time': use_sim_time}]
     )
     
-    # Encoder reader node
-    encoder_node = Node(
-        package='humanoid_motor_control',
-        executable='encoder_node',
-        name='encoder_reader',
+    # Magnetic encoder node from magnetic_encoder_pkg
+    magnetic_encoder_node = Node(
+        package='magnetic_encoder_pkg',
+        executable='magnetic_encoder_node',
+        name='magnetic_encoder_node',
         output='screen',
-        parameters=[config_file, {'use_sim_time': use_sim_time}]
+        parameters=[PathJoinSubstitution([
+            FindPackageShare('magnetic_encoder_pkg'),
+            'config',
+            'magnetic_encoder_params.yaml'
+        ])]
     )
     
     # Differential drive controller node
@@ -54,6 +58,6 @@ def generate_launch_description():
             description='Use simulation time'
         ),
         cytron_node,
-        encoder_node,
+        magnetic_encoder_node,
         diff_drive_node,
     ])
