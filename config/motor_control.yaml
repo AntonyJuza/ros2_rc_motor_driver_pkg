@@ -28,5 +28,5 @@ diff_drive_controller:
     wheel_base: 0.23        # matched to URDF
     wheel_radius: 0.045     # matched to URDF
     publish_tf: false       # EKF owns odom→base_link TF
-    base_frame: "base_link"
+    base_frame: "base_footprint"
     odom_frame: "odom"
