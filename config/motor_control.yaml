@@ -20,7 +20,7 @@ cytron_controller_node:
     # EKF (robot_localization) owns the odom→base_link TF.
     # Having two nodes broadcast the same TF causes map corruption.
     publish_tf: false
-    base_frame: "base_link"
+    base_frame: "base_footprint"
     odom_frame: "odom"
 
 diff_drive_controller:
