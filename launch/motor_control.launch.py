@@ -48,7 +48,7 @@ def generate_launch_description():
         executable='diff_drive_controller',
         name='diff_drive_controller',
         output='screen',
-        parameters=[config_file, {'use_sim_time': use_sim_time}]
+        parameters=[config_file, {'use_sim_time': use_sim_time, 'publish_tf': False}]
     )
     
     return LaunchDescription([
