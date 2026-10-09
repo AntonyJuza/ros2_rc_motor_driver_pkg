@@ -1,32 +1,43 @@
 cytron_controller_node:
   ros__parameters:
-    # GPIO pins for Cytron motor controller
     rc1_pin: 12
     rc2_pin: 13
-
-    # Robot dimensions — matched to URDF (wheel separation 0.28m, y_offset 0.140m)
     wheel_base: 0.28
     wheel_radius: 0.050
-
-    # Motor configuration
+    max_linear_speed: 0.15
+    max_angular_speed: 0.80
+    min_speed: 25
     max_speed: 100
     publish_rate: 50.0
+    left_trim: 1.0
+    right_trim: 1.0
+    trim: 0.0
+    publish_tf: false
+    base_frame: "base_footprint"
+    odom_frame: "odom"
 
-    # Encoder parameters
-    encoder_pins: [18, 19]
-    pulses_per_revolution: 20
-
-    # IMPORTANT: publish_tf = false
-    # EKF (robot_localization) owns the odom→base_link TF.
-    # Having two nodes broadcast the same TF causes map corruption.
+cytron_controller:
+  ros__parameters:
+    rc1_pin: 12
+    rc2_pin: 13
+    wheel_base: 0.28
+    wheel_radius: 0.050
+    max_linear_speed: 0.15
+    max_angular_speed: 0.80
+    min_speed: 25
+    max_speed: 100
+    publish_rate: 50.0
+    left_trim: 1.0
+    right_trim: 1.0
+    trim: 0.0
     publish_tf: false
     base_frame: "base_footprint"
     odom_frame: "odom"
 
 diff_drive_controller:
   ros__parameters:
-    wheel_base: 0.28        # matched to URDF
-    wheel_radius: 0.050     # matched to URDF
-    publish_tf: false       # EKF owns odom→base_link TF
+    wheel_base: 0.28
+    wheel_radius: 0.050
+    publish_tf: false
     base_frame: "base_footprint"
     odom_frame: "odom"
