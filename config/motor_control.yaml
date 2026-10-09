@@ -4,9 +4,9 @@ cytron_controller_node:
     rc2_pin: 13
     wheel_base: 0.28
     wheel_radius: 0.050
-    max_linear_speed: 0.20
-    max_angular_speed: 0.94
-    min_speed: 25
+    max_linear_speed: 0.40
+    max_angular_speed: 1.50
+    min_speed: 20
     max_speed: 100
     publish_rate: 50.0
     left_trim: 1.0
@@ -22,9 +22,9 @@ cytron_controller:
     rc2_pin: 13
     wheel_base: 0.28
     wheel_radius: 0.050
-    max_linear_speed: 0.20
-    max_angular_speed: 0.94
-    min_speed: 25
+    max_linear_speed: 0.40
+    max_angular_speed: 1.50
+    min_speed: 20
     max_speed: 100
     publish_rate: 50.0
     left_trim: 1.0
