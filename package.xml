@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>humanoid_motor_control</name>
+  <name>rover_motor_control</name>
   <version>0.1.0</version>
   <description>Motor control package for Cytron MDDRC10 driver with 4 DC motors</description>
   <maintainer email="antonyjuza@gmail.com">Antony Juza</maintainer>

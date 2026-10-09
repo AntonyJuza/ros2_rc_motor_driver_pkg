@@ -5,8 +5,8 @@ cytron_controller_node:
     rc2_pin: 13
 
     # Robot dimensions — matched to URDF (wheel y_reflect * 0.115 * 2)
-    wheel_base: 0.23
-    wheel_radius: 0.045
+    wheel_base: 0.28
+    wheel_radius: 0.050
 
     # Motor configuration
     max_speed: 100
@@ -25,8 +25,8 @@ cytron_controller_node:
 
 diff_drive_controller:
   ros__parameters:
-    wheel_base: 0.23        # matched to URDF
-    wheel_radius: 0.045     # matched to URDF
+    wheel_base: 0.28        # matched to URDF
+    wheel_radius: 0.050     # matched to URDF
     publish_tf: false       # EKF owns odom→base_link TF
     base_frame: "base_footprint"
     odom_frame: "odom"
