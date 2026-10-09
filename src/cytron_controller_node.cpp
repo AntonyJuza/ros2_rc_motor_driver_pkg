@@ -29,8 +29,8 @@ public:
         trim_ = this->declare_parameter("trim", 0.0);
         updateTrims();
 
-        max_linear_speed_ = this->declare_parameter("max_linear_speed", 0.25);
-        max_angular_speed_ = this->declare_parameter("max_angular_speed", 1.0);
+        max_linear_speed_ = this->declare_parameter("max_linear_speed", 0.20);
+        max_angular_speed_ = this->declare_parameter("max_angular_speed", 0.94);
         min_speed_ = this->declare_parameter("min_speed", 25);
         wheel_base_ = this->declare_parameter("wheel_base", 0.28);
 
