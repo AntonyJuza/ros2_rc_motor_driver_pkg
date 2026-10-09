@@ -4,7 +4,7 @@ cytron_controller_node:
     rc1_pin: 12
     rc2_pin: 13
 
-    # Robot dimensions — matched to URDF (wheel y_reflect * 0.115 * 2)
+    # Robot dimensions — matched to URDF (wheel separation 0.28m, y_offset 0.140m)
     wheel_base: 0.28
     wheel_radius: 0.050
 

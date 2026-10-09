@@ -42,7 +42,7 @@ public:
         // Maximum linear speed (m/s) and angular speed (rad/s) for mapping
         max_linear_speed_ = this->declare_parameter("max_linear_speed", 0.5);
         max_angular_speed_ = this->declare_parameter("max_angular_speed", 1.0);
-        wheel_base_ = this->declare_parameter("wheel_base", 0.25); // meters
+        wheel_base_ = this->declare_parameter("wheel_base", 0.28); // meters
         
         RCLCPP_INFO(this->get_logger(), "Configuration:");
         RCLCPP_INFO(this->get_logger(), "  Max linear speed: %.2f m/s", max_linear_speed_);

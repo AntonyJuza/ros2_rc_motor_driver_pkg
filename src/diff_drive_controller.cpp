@@ -15,8 +15,8 @@ public:
     x_(0.0), y_(0.0), theta_(0.0)
   {
     // Declare parameters
-    this->declare_parameter("wheel_base", 0.23);
-    this->declare_parameter("wheel_radius", 0.045);
+    this->declare_parameter("wheel_base", 0.28);
+    this->declare_parameter("wheel_radius", 0.050);
     this->declare_parameter("publish_tf", true);
     this->declare_parameter("base_frame", "base_link");
     this->declare_parameter("odom_frame", "odom");
